@@ -48,7 +48,8 @@ async function main() {
         while (true) {
             try {
                 // await expect(tradingRewards.updateTradingRewards(merkle_root, maxAmountInCurrentTree)).to.emit(tradingRewards, "UpdateTradingRewards").withArgs(currentRewardRound_remote.add(1).toString())
-                assert.isOk( await tradingRewards.updateTradingRewards(merkle_root, maxAmountInCurrentTree))
+                const tx = await tradingRewards.updateTradingRewards(merkle_root, maxAmountInCurrentTree)
+                assert.isOk( await tx.wait() )
                 let currentRewardRound_remote = await tradingRewards.currentRewardRound()
                 logger.info("Successfully updated merkle root: (", merkle_root, ",", currentRewardRound_remote.toString() , ",", maxAmountInCurrentTree.toString(), " )")
                 break
